@@ -1,3 +1,4 @@
 class BaseLib:
-    def __init__(self):
-        pass
+    @staticmethod
+    def __get_access_name__() -> str:
+        return "unknown"

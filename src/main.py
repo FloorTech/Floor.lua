@@ -2,6 +2,10 @@ from typing import Any
 import sys
 import os
 from lupa import LuaRuntime
+from libraries import (
+    LuaEnvironment,
+    get_libraries,
+)
 from libraries.base import BaseLib
 from libraries.standard import StandardLib
 
@@ -16,11 +20,12 @@ def wrap_library_methods(library: type[BaseLib]) -> dict[str, Any]:
 
 def create_code_runner():
     lua = LuaRuntime()
-    safe_env = lua.eval("{}")
+    safe_env: LuaEnvironment = lua.eval("{}")  # type: ignore
     safe_env["math"] = lua.eval("math")  # type: ignore
     safe_env["string"] = lua.eval("string")  # type: ignore
 
-    safe_env[StandardLib.__get_access_name__()] = wrap_library_methods(StandardLib)  # type: ignore
+    for library in get_libraries():
+        safe_env[library.__get_access_name__()] = wrap_library_methods(library)  # type: ignore
 
     def run_lua(code: str):  # type: ignore
         try:

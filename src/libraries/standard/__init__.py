@@ -1,3 +1,4 @@
+from typing import Any
 import colorama
 from libraries.base import BaseLib
 
@@ -8,15 +9,18 @@ class StandardLib(BaseLib):
         return "std"
 
     @staticmethod
-    def debug(text: str) -> None:
+    def debug(text: Any) -> None:
+        text = str(text)
         print(text)
 
     @staticmethod
-    def warn(text: str) -> None:
+    def warn(text: Any) -> None:
+        text = str(text)
         text = colorama.Fore.YELLOW + text + colorama.Fore.RESET
         print(text)
 
     @staticmethod
-    def error(text: str) -> None:
+    def error(text: Any) -> None:
+        text = str(text)
         text = colorama.Fore.RED + text + colorama.Fore.RESET
         print(text)
